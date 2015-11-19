@@ -141,9 +141,9 @@ class vsftpd (
   package { $package_name: ensure => installed }
 
   service { $service_name:
+    ensure    => running,
     require   => Package[$package_name],
     enable    => true,
-    ensure    => running,
     hasstatus => true,
   }
 

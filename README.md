@@ -57,3 +57,12 @@ class { 'vsftpd':
 }
 ```
 
+## Hiera Examples
+```yaml
+classes:
+  - vsftpd
+vsftpd::anonymous_enable: 'NO'
+vsftpd::write_enable: 'YES'
+vsftpd::ftpd_banner: 'This is a very secure ftp server.'
+vsftpd::chroot_local_user: 'YES'
+```
