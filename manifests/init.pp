@@ -16,6 +16,7 @@
 class vsftpd (
   $confdir                   = $::vsftpd::params::confdir,
   $package_name              = $::vsftpd::params::package_name,
+  $package_ensure            = $::vsftpd::params::package_ensure,
   $service_name              = $::vsftpd::params::service_name,
   $template                  = 'vsftpd/vsftpd.conf.erb',
 
@@ -138,7 +139,7 @@ class vsftpd (
   $directives                = {},
 ) inherits ::vsftpd::params {
 
-  package { $package_name: ensure => installed }
+  package { $package_name: ensure => $package_ensure }
 
   service { $service_name:
     ensure    => running,
