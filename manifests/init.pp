@@ -14,10 +14,9 @@
 #  }
 #
 class vsftpd (
-  $confdir                   = $::vsftpd::params::confdir,
-  $package_name              = $::vsftpd::params::package_name,
-  $package_ensure            = $::vsftpd::params::package_ensure,
-  $service_name              = $::vsftpd::params::service_name,
+  $package_name              = 'vsftpd',
+  $package_ensure            = 'installed',
+  $service_name              = 'vsftpd',
   $template                  = 'vsftpd/vsftpd.conf.erb',
 
   # vsftpd.conf options
@@ -103,7 +102,6 @@ class vsftpd (
   $tilde_user_enable         =  'NO',
   $use_localtime             =  'NO',
   $use_sendfile              =  'YES',
-  $userlist_log              =  'NO',
   $virtual_use_local_privs   =  'NO',
   $accept_timeout            =  '60',
   $anon_max_rate             =  '0',
@@ -138,7 +136,23 @@ class vsftpd (
   $userlist_file             =  '/etc/vsftpd/user_list',
   $vsftpd_log_file           =  '/var/log/vsftpd.log',
   $directives                = {},
-) inherits ::vsftpd::params {
+) {
+
+  case $::operatingsystem {
+    'RedHat',
+    'CentOS',
+    'Amazon': {
+      $confdir = '/etc/vsftpd'
+    }
+    'Debian',
+    'Ubuntu': {
+      $confdir = '/etc'
+    }
+    default: {
+      $confdir = '/etc/vsftpd'
+    }
+  }
+
 
   package { $package_name: ensure => $package_ensure }
 
@@ -154,6 +168,8 @@ class vsftpd (
     content => template($template),
     notify  => Service[$service_name],
   }
+
+  # Validate all the parameters!
 
 }
 
