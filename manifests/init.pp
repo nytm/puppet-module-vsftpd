@@ -25,17 +25,18 @@ class vsftpd (
   $max_per_ip                =  '0',
   $anon_max_rate             =  '0',
   $trans_chunk_size          =  '0',
-  $pasv_min_port             =  '0',
   $delay_successful_login    =  '0',
-  $pasv_max_port             =  '0',
   $delay_failed_login        =  '1',
   $max_login_fails           =  '3',
-  $ftp_data_port             =  '20',
-  $listen_port               =  '21',
   $accept_timeout            =  '60',
   $connect_timeout           =  '60',
   $idle_session_timeout      =  '300',
   $data_connection_timeout   =  '300',
+
+  $ftp_data_port             =  '20',
+  $listen_port               =  '21',
+  $pasv_min_port             =  '0',
+  $pasv_max_port             =  '0',
 
   $file_open_mode            =  '0666',
   $anon_umask                =  '077',
@@ -160,59 +161,59 @@ class vsftpd (
 
   # Validate all the parameters!
 
-  if $ftpd_banner {
+  if $ftpd_banner != undef {
     validate_string($ftpd_banner)
   }
-  if $hide_file {
+  if $hide_file != undef {
     validate_string($hide_file)
   }
-  if $banner_file {
+  if $banner_file != undef {
     validate_string($banner_file)
   }
-  if $allow_writeable_chroot {
+  if $allow_writeable_chroot != undef {
     validate_string($allow_writeable_chroot)
   }
-  if $anon_root {
+  if $anon_root != undef {
     validate_string($anon_root)
   }
-  if $cmds_allowed {
+  if $cmds_allowed != undef {
     validate_string($cmds_allowed)
   }
-  if $deny_file {
+  if $deny_file != undef {
     validate_string($deny_file)
   }
-  if $dsa_cert_file {
+  if $dsa_cert_file != undef {
     validate_string($dsa_cert_file)
   }
-  if $dsa_private_key_file {
+  if $dsa_private_key_file != undef {
     validate_string($dsa_private_key_file)
   }
-  if $listen_address {
+  if $listen_address != undef {
     validate_string($listen_address)
   }
-  if $listen_address6 {
+  if $listen_address6 != undef {
     validate_string($listen_address6)
   }
-  if $local_root {
+  if $local_root != undef {
     validate_string($local_root)
   }
-  if $pasv_address {
+  if $pasv_address != undef {
     validate_string($pasv_address)
   }
-  if $rsa_private_key_file {
+  if $rsa_private_key_file != undef {
     validate_string($rsa_private_key_file)
   }
-  if $user_config_dir {
+  if $user_config_dir != undef {
     validate_string($user_config_dir)
   }
-  if $user_sub_token {
+  if $user_sub_token != undef {
     validate_string($user_sub_token)
   }
 
 
   validate_string($package_name)
   validate_string($package_ensure)
-  validate_string($serivce_name)
+  validate_string($service_name)
   validate_string($template)
   validate_re($local_umask, '^[0-7]{3}$',
     "vsftpd::local_umask is <${local_umask}> and must be a valid three digit mode in octal notation."

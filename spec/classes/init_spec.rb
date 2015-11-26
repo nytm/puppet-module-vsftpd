@@ -217,4 +217,70 @@ describe 'vsftpd' do
       it { should contain_file(fName).with_content(/^ssl_ciphers=DES-CBC3-SHA$/) }
     end
   end
+  describe 'variable type and content validations' do
+    # set needed custom facts and variables
+    let(:facts) { {
+      :osfamily => 'RedHat',
+    } }
+    let(:validation_params) { {
+#      :param => 'value',
+    } }
+
+    validations = {
+      'string' => {
+        :name    => ['guest_username', 'pam_service_name', 'ftp_username', 'chown_username', 'nopriv_user', 'message_file', 'ssl_ciphers', 'xferlog_file', 'secure_chroot_dir', 'vsftpd_log_file', 'userlist_file', 'chroot_list_file', 'banned_email_file', 'email_password_file', 'rsa_cert_file', 'ftpd_banner', 'hide_file', 'banner_file', 'allow_writeable_chroot', 'anon_root', 'cmds_allowed', 'deny_file', 'dsa_cert_file', 'dsa_private_key_file', 'listen_address', 'listen_address6', 'local_root', 'pasv_address', 'rsa_private_key_file', 'user_config_dir', 'user_sub_token'],
+        :valid   => ['string_word'],
+        :invalid => [['array'],a={'ha'=>'sh'},true,false],
+        :message => 'is not a string',
+      },
+      'regex_file_mode' => {
+        :name    => ['file_open_mode'],
+        :valid   => ['0755','0644','0242'],
+        :invalid => ['invalid','755',0755,'0980',['array'],a={'ha'=>'sh'},3,2.42,true,false,nil],
+        :message => 'must be a valid four digit mode in octal notation',
+      },
+      'regex_umask_mode' => {
+        :name    => ['anon_umask', 'local_umask'],
+        :valid   => ['077','066','255'],
+        :invalid => ['invalid','999', 0755,'0980',3,2.42,nil],
+        :message => '(must be a valid three digit mode in octal notation|Error while evaluating a Function Call)',
+      },
+      'port_number' => {
+        :name    => ['ftp_data_port', 'listen_port', 'pasv_min_port', 'pasv_max_port'],
+        :valid   => [22],
+        :invalid => [65555, -100, -422],
+        :message => '(Expected first argument to be an Integer or Array|Expected [-]?\d+ to be (smaller|greater) or equal to (0|65535))',
+      },
+      'string_yes_no' => {
+        :name    => ['anonymous_enable', 'local_enable', 'write_enable', 'anon_upload_enable', 'anon_mkdir_write_enable', 'dirmessage_enable', 'xferlog_enable', 'connect_from_port_20', 'chown_uploads', 'xferlog_std_format', 'async_abor_enable', 'ascii_upload_enable', 'ascii_download_enable', 'chroot_local_user', 'chroot_list_enable', 'ls_recurse_enable', 'listen', 'userlist_enable', 'userlist_deny', 'tcp_wrappers', 'hide_ids', 'setproctitle_enable', 'text_userdb_names', 'ssl_request_cert', 'anon_other_write_enable', 'anon_world_readable_only', 'background', 'check_shell', 'chmod_enable', 'deny_email_enable', 'dirlist_enable', 'download_enable', 'dual_log_enable', 'force_dot_files', 'force_anon_data_ssl', 'force_anon_logins_ssl', 'force_local_data_ssl', 'force_local_logins_ssl', 'guest_enable', 'listen_ipv6', 'lock_upload_files', 'log_ftp_protocol', 'mdtm_write', 'no_anon_password', 'no_log_lock', 'one_process_model', 'passwd_chroot_enable', 'pasv_addr_resolve', 'pasv_enable', 'pasv_promiscuous', 'port_enable', 'port_promiscuous', 'reverse_lookup_enable', 'run_as_launching_user', 'secure_email_list_enable', 'session_support', 'ssl_enable', 'ssl_sslv2', 'ssl_sslv3', 'ssl_tlsv1', 'syslog_enable', 'tilde_user_enable', 'use_localtime', 'use_sendfile', 'virtual_use_local_privs'],
+        :valid   => ['YES', 'NO'],
+        :invalid => [['array'],a={'ha'=>'sh'},true,false],
+        :message => 'Must be either \'YES\' or \'NO\'',
+      },
+    }
+
+    validations.sort.each do |type,var|
+      var[:name].each do |var_name|
+
+        var[:valid].each do |valid|
+          context "with #{var_name} (#{type}) set to valid #{valid} (as #{valid.class})" do
+            let(:params) { validation_params.merge({:"#{var_name}" => valid, }) }
+            it { should compile }
+          end
+        end
+
+        var[:invalid].each do |invalid|
+          context "with #{var_name} (#{type}) set to invalid #{invalid} (as #{invalid.class})" do
+            let(:params) { validation_params.merge({:"#{var_name}" => invalid, }) }
+            it 'should fail' do
+              expect {
+                should contain_class(subject)
+              }.to raise_error(Puppet::Error,/#{var[:message]}/)
+            end
+          end
+        end
+
+      end # var[:name].each
+    end # validations.sort.each
+  end # describe 'variable type and content validations'
 end
