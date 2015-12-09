@@ -14,130 +14,446 @@
 #  }
 #
 class vsftpd (
-  $confdir                   = $::vsftpd::params::confdir,
-  $package_name              = $::vsftpd::params::package_name,
-  $package_ensure            = $::vsftpd::params::package_ensure,
-  $service_name              = $::vsftpd::params::service_name,
+  $package_name              = 'vsftpd',
+  $package_ensure            = 'installed',
+  $service_name              = 'vsftpd',
   $template                  = 'vsftpd/vsftpd.conf.erb',
 
   # vsftpd.conf options
-  $anonymous_enable          = $::vsftpd::params::anonymous_enable,
-  $local_enable              = $::vsftpd::params::local_enable,
-  $write_enable              = $::vsftpd::params::write_enable,
-  $local_umask               = $::vsftpd::params::local_umask,
-  $anon_upload_enable        = $::vsftpd::params::anon_upload_enable,
-  $anon_mkdir_write_enable   = $::vsftpd::params::anon_mkdir_write_enable,
-  $dirmessage_enable         = $::vsftpd::params::dirmessage_enable,
-  $xferlog_enable            = $::vsftpd::params::xferlog_enable,
-  $connect_from_port_20      = $::vsftpd::params::connect_from_port_20,
-  $chown_uploads             = $::vsftpd::params::chown_uploads,
-  $chown_username            = $::vsftpd::params::chown_username,
-  $xferlog_file              = $::vsftpd::params::xferlog_file,
-  $xferlog_std_format        = $::vsftpd::params::xferlog_std_format,
-  $idle_session_timeout      = $::vsftpd::params::idle_session_timeout,
-  $data_connection_timeout   = $::vsftpd::params::data_connection_timeout,
-  $nopriv_user               = $::vsftpd::params::nopriv_user,
-  $async_abor_enable         = $::vsftpd::params::async_abor_enable,
-  $ascii_upload_enable       = $::vsftpd::params::ascii_upload_enable,
-  $ascii_download_enable     = $::vsftpd::params::ascii_download_enable,
-  $ftpd_banner               = $::vsftpd::params::ftpd_banner,
-  $chroot_local_user         = $::vsftpd::params::chroot_local_user,
-  $chroot_list_enable        = $::vsftpd::params::chroot_list_enable,
-  $chroot_list_file          = $::vsftpd::params::chroot_list_file,
-  $ls_recurse_enable         = $::vsftpd::params::ls_recurse_enable,
-  $listen_address            = $::vsftpd::params::listen_address,
-  $listen                    = $::vsftpd::params::listen,
-  $listen_port               = $::vsftpd::params::listen_port,
-  $pam_service_name          = $::vsftpd::params::pam_service_name,
-  $userlist_enable           = $::vsftpd::params::userlist_enable,
-  $userlist_deny             = $::vsftpd::params::userlist_deny,
-  $tcp_wrappers              = $::vsftpd::params::tcp_wrappers,
-  $hide_file                 = $::vsftpd::params::hide_file,
-  $hide_ids                  = $::vsftpd::params::hide_ids,
-  $setproctitle_enable       = $::vsftpd::params::setproctitle_enable,
-  $text_userdb_names         = $::vsftpd::params::text_userdb_names,
-  $max_clients               = $::vsftpd::params::max_clients,
-  $max_per_ip                = $::vsftpd::params::max_per_ip,
-  $pasv_min_port             = $::vsftpd::params::pasv_min_port,
-  $pasv_max_port             = $::vsftpd::params::pasv_max_port,
-  $ftp_username              = $::vsftpd::params::ftp_username,
-  $banner_file               = $::vsftpd::params::banner_file,
-  $allow_writeable_chroot    = $::vsftpd::params::allow_writeable_chroot,
-  $ssl_request_cert          = $::vsftpd::params::ssl_request_cert,
-  $anon_world_readable_only  = $::vsftpd::params::anon_world_readable_only,
-  $background                = $::vsftpd::params::background,
-  $check_shell               = $::vsftpd::params::check_shell,
-  $chmod_enable              = $::vsftpd::params::chmod_enable,
-  $deny_email_enable         = $::vsftpd::params::deny_email_enable,
-  $dirlist_enable            = $::vsftpd::params::dirlist_enable,
-  $download_enable           = $::vsftpd::params::download_enable,
-  $dual_log_enable           = $::vsftpd::params::dual_log_enable,
-  $force_dot_files           = $::vsftpd::params::force_dot_files,
-  $force_anon_data_ssl       = $::vsftpd::params::force_anon_data_ssl,
-  $force_anon_logins_ssl     = $::vsftpd::params::force_anon_logins_ssl,
-  $force_local_data_ssl      = $::vsftpd::params::force_local_data_ssl,
-  $force_local_logins_ssl    = $::vsftpd::params::force_local_logins_ssl,
-  $guest_enable              = $::vsftpd::params::guest_enable,
-  $lock_upload_files         = $::vsftpd::params::lock_upload_files,
-  $log_ftp_protocol          = $::vsftpd::params::log_ftp_protocol,
-  $mdtm_write                = $::vsftpd::params::mdtm_write,
-  $no_anon_password          = $::vsftpd::params::no_anon_password,
-  $no_log_lock               = $::vsftpd::params::no_log_lock,
-  $one_process_model         = $::vsftpd::params::one_process_model,
-  $passwd_chroot_enable      = $::vsftpd::params::passwd_chroot_enable,
-  $pasv_addr_resolve         = $::vsftpd::params::pasv_addr_resolve,
-  $pasv_enable               = $::vsftpd::params::pasv_enable,
-  $pasv_promiscuous          = $::vsftpd::params::pasv_promiscuous,
-  $port_enable               = $::vsftpd::params::port_enable,
-  $port_promiscuous          = $::vsftpd::params::port_promiscuous,
-  $reverse_lookup_enable     = $::vsftpd::params::reverse_lookup_enable,
-  $run_as_launching_user     = $::vsftpd::params::run_as_launching_user,
-  $secure_email_list_enable  = $::vsftpd::params::secure_email_list_enable,
-  $session_support           = $::vsftpd::params::session_support,
-  $ssl_enable                = $::vsftpd::params::ssl_enable,
-  $ssl_sslv2                 = $::vsftpd::params::ssl_sslv2,
-  $ssl_sslv3                 = $::vsftpd::params::ssl_sslv3,
-  $ssl_tlsv1                 = $::vsftpd::params::ssl_tlsv1,
-  $syslog_enable             = $::vsftpd::params::syslog_enable,
-  $tilde_user_enable         = $::vsftpd::params::tilde_user_enable,
-  $use_localtime             = $::vsftpd::params::use_localtime,
-  $use_sendfile              = $::vsftpd::params::use_sendfile,
-  $userlist_log              = $::vsftpd::params::userlist_log,
-  $virtual_use_local_privs   = $::vsftpd::params::virtual_use_local_privs,
-  $accept_timeout            = $::vsftpd::params::accept_timeout,
-  $anon_max_rate             = $::vsftpd::params::anon_max_rate,
-  $anon_umask                = $::vsftpd::params::anon_umask,
-  $connect_timeout           = $::vsftpd::params::connect_timeout,
-  $delay_failed_login        = $::vsftpd::params::delay_failed_login,
-  $delay_successful_login    = $::vsftpd::params::delay_successful_login,
-  $file_open_mode            = $::vsftpd::params::file_open_mode,
-  $ftp_data_port             = $::vsftpd::params::ftp_data_port,
-  $local_max_rate            = $::vsftpd::params::local_max_rate,
-  $max_login_fails           = $::vsftpd::params::max_login_fails,
-  $trans_chunk_size          = $::vsftpd::params::trans_chunk_size,
-  $anon_root                 = $::vsftpd::params::anon_root,
-  $banned_email_file         = $::vsftpd::params::banned_email_file,
-  $cmds_allowed              = $::vsftpd::params::cmds_allowed,
-  $listen_address6           = $::vsftpd::params::listen_address6,
-  $listen_ipv6               = $::vsftpd::params::listen_ipv6,
-  $deny_file                 = $::vsftpd::params::deny_file,
-  $dsa_cert_file             = $::vsftpd::params::dsa_cert_file,
-  $dsa_private_key_file      = $::vsftpd::params::dsa_private_key_file,
-  $email_password_file       = $::vsftpd::params::email_password_file,
-  $guest_username            = $::vsftpd::params::guest_username,
-  $local_root                = $::vsftpd::params::local_root,
-  $message_file              = $::vsftpd::params::message_file,
-  $pasv_address              = $::vsftpd::params::pasv_address,
-  $rsa_cert_file             = $::vsftpd::params::rsa_cert_file,
-  $rsa_private_key_file      = $::vsftpd::params::rsa_private_key_file,
-  $secure_chroot_dir         = $::vsftpd::params::secure_chroot_dir,
-  $ssl_ciphers               = $::vsftpd::params::ssl_ciphers,
-  $user_config_dir           = $::vsftpd::params::user_config_dir,
-  $user_sub_token            = $::vsftpd::params::user_sub_token,
-  $userlist_file             = $::vsftpd::params::userlist_file,
-  $vsftpd_log_file           = $::vsftpd::params::vsftpd_log_file,
+  $local_max_rate            =  '0',
+  $max_clients               =  '0',
+  $max_per_ip                =  '0',
+  $anon_max_rate             =  '0',
+  $trans_chunk_size          =  '0',
+  $delay_successful_login    =  '0',
+  $delay_failed_login        =  '1',
+  $max_login_fails           =  '3',
+  $accept_timeout            =  '60',
+  $connect_timeout           =  '60',
+  $idle_session_timeout      =  '300',
+  $data_connection_timeout   =  '300',
+
+  $ftp_data_port             =  '20',
+  $listen_port               =  '21',
+  $pasv_min_port             =  '0',
+  $pasv_max_port             =  '0',
+
+  $file_open_mode            =  '0666',
+  $anon_umask                =  '077',
+  $local_umask               =  '077',
+
+  $guest_username            =  'ftp',
+  $pam_service_name          =  'ftp',
+  $ftp_username              =  'ftp',
+  $chown_username            =  'root',
+  $nopriv_user               =  'nobody',
+  $message_file              =  '.message',
+  $ssl_ciphers               =  'DES-CBC3-SHA',
+  $xferlog_file              =  '/var/log/xferlog',
+  $secure_chroot_dir         =  '/usr/share/empty',
+  $vsftpd_log_file           =  '/var/log/vsftpd.log',
+  $userlist_file             =  '/etc/vsftpd/user_list',
+  $chroot_list_file          =  '/etc/vsftpd/chroot_list',
+  $banned_email_file         =  '/etc/vsftpd/banned_emails',
+  $email_password_file       =  '/etc/vsftpd/email_passwords',
+  $rsa_cert_file             =  '/usr/share/ssl/certs/vsftpd.pem',
+
+  $force_local_data_ssl      =  'YES',
+  $dirlist_enable            =  'YES',
+  $download_enable           =  'YES',
+  $ssl_request_cert          =  'YES',
+  $userlist_deny             =  'YES',
+  $anonymous_enable          =  'YES',
+  $listen                    =  'YES',
+  $anon_world_readable_only  =  'YES',
+  $background                =  'YES',
+  $port_enable               =  'YES',
+  $check_shell               =  'YES',
+  $chmod_enable              =  'YES',
+  $use_sendfile              =  'YES',
+  $mdtm_write                =  'YES',
+  $reverse_lookup_enable     =  'YES',
+  $ssl_tlsv1                 =  'YES',
+  $force_local_logins_ssl    =  'YES',
+  $pasv_enable               =  'YES',
+
+  $local_enable              =  'NO',
+  $write_enable              =  'NO',
+  $anon_upload_enable        =  'NO',
+  $anon_mkdir_write_enable   =  'NO',
+  $dirmessage_enable         =  'NO',
+  $xferlog_enable            =  'NO',
+  $connect_from_port_20      =  'NO',
+  $chown_uploads             =  'NO',
+  $xferlog_std_format        =  'NO',
+  $async_abor_enable         =  'NO',
+  $ascii_upload_enable       =  'NO',
+  $ascii_download_enable     =  'NO',
+  $chroot_local_user         =  'NO',
+  $chroot_list_enable        =  'NO',
+  $ls_recurse_enable         =  'NO',
+  $userlist_enable           =  'NO',
+  $tcp_wrappers              =  'NO',
+  $hide_ids                  =  'NO',
+  $anon_other_write_enable   =  'NO',
+  $setproctitle_enable       =  'NO',
+  $text_userdb_names         =  'NO',
+  $deny_email_enable         =  'NO',
+  $dual_log_enable           =  'NO',
+  $force_dot_files           =  'NO',
+  $force_anon_data_ssl       =  'NO',
+  $force_anon_logins_ssl     =  'NO',
+  $guest_enable              =  'NO',
+  $listen_ipv6               =  'NO',
+  $lock_upload_files         =  'NO',
+  $log_ftp_protocol          =  'NO',
+  $no_anon_password          =  'NO',
+  $no_log_lock               =  'NO',
+  $one_process_model         =  'NO',
+  $passwd_chroot_enable      =  'NO',
+  $pasv_addr_resolve         =  'NO',
+  $pasv_promiscuous          =  'NO',
+  $port_promiscuous          =  'NO',
+  $run_as_launching_user     =  'NO',
+  $secure_email_list_enable  =  'NO',
+  $session_support           =  'NO',
+  $ssl_enable                =  'NO',
+  $ssl_sslv2                 =  'NO',
+  $ssl_sslv3                 =  'NO',
+  $syslog_enable             =  'NO',
+  $tilde_user_enable         =  'NO',
+  $use_localtime             =  'NO',
+  $virtual_use_local_privs   =  'NO',
+
+  $pasv_address              =  undef,
+  $hide_file                 =  undef,
+  $banner_file               =  undef,
+  $cmds_allowed              =  undef,
+  $allow_writeable_chroot    =  undef,
+  $anon_root                 =  undef,
+  $deny_file                 =  undef,
+  $dsa_cert_file             =  undef,
+  $dsa_private_key_file      =  undef,
+  $ftpd_banner               =  undef,
+  $listen_address            =  undef,
+  $listen_address6           =  undef,
+  $local_root                =  undef,
+  $rsa_private_key_file      =  undef,
+  $user_config_dir           =  undef,
+  $user_sub_token            =  undef,
   $directives                = {},
-) inherits ::vsftpd::params {
+) {
+
+  case $::operatingsystem {
+    'RedHat',
+    'CentOS',
+    'Amazon': {
+      $confdir = '/etc/vsftpd'
+    }
+    'Debian',
+    'Ubuntu': {
+      $confdir = '/etc'
+    }
+    default: {
+      $confdir = '/etc/vsftpd'
+    }
+  }
+
+  # Validate all the parameters!
+
+  if $ftpd_banner != undef {
+    validate_string($ftpd_banner)
+  }
+  if $hide_file != undef {
+    validate_string($hide_file)
+  }
+  if $banner_file != undef {
+    validate_string($banner_file)
+  }
+  if $allow_writeable_chroot != undef {
+    validate_string($allow_writeable_chroot)
+  }
+  if $anon_root != undef {
+    validate_string($anon_root)
+  }
+  if $cmds_allowed != undef {
+    validate_string($cmds_allowed)
+  }
+  if $deny_file != undef {
+    validate_string($deny_file)
+  }
+  if $dsa_cert_file != undef {
+    validate_string($dsa_cert_file)
+  }
+  if $dsa_private_key_file != undef {
+    validate_string($dsa_private_key_file)
+  }
+  if $listen_address != undef {
+    validate_string($listen_address)
+  }
+  if $listen_address6 != undef {
+    validate_string($listen_address6)
+  }
+  if $local_root != undef {
+    validate_string($local_root)
+  }
+  if $pasv_address != undef {
+    validate_string($pasv_address)
+  }
+  if $rsa_private_key_file != undef {
+    validate_string($rsa_private_key_file)
+  }
+  if $user_config_dir != undef {
+    validate_string($user_config_dir)
+  }
+  if $user_sub_token != undef {
+    validate_string($user_sub_token)
+  }
+
+
+  validate_string($package_name)
+  validate_string($package_ensure)
+  validate_string($service_name)
+  validate_string($template)
+  validate_re($local_umask, '^[0-7]{3}$',
+    "vsftpd::local_umask is <${local_umask}> and must be a valid three digit mode in octal notation."
+  )
+  validate_string($chown_username)
+  validate_string($xferlog_file)
+  validate_integer(0 + $idle_session_timeout)
+  validate_integer(0 + $data_connection_timeout)
+  validate_string($nopriv_user)
+  validate_string($chroot_list_file)
+  validate_integer(0 + $listen_port, 65535, 0)
+  validate_string($pam_service_name)
+  validate_integer(0 + $max_clients)
+  validate_integer(0 + $max_per_ip)
+  validate_integer(0 + $pasv_min_port, 65535, 0)
+  validate_integer(0 + $pasv_max_port, 65535, 0)
+  validate_string($ftp_username)
+  validate_integer(0 + $accept_timeout)
+  validate_integer(0 + $anon_max_rate)
+  validate_string($anon_umask)
+  validate_re($anon_umask, '^[0-7]{3}$',
+    "vsftpd::anon_umask is <${anon_umask}> and must be a valid three digit mode in octal notation."
+  )
+  validate_integer(0 + $connect_timeout)
+  validate_integer(0 + $delay_failed_login)
+  validate_integer(0 + $delay_successful_login)
+  validate_re($file_open_mode, '^[0-7]{4}$',
+    "vsftpd::file_open_mode is <${file_open_mode}> and must be a valid four digit mode in octal notation."
+  )
+  validate_integer(0 + $ftp_data_port, 65535, 0)
+  validate_integer(0 + $local_max_rate)
+  validate_integer(0 + $max_login_fails)
+  validate_integer(0 + $trans_chunk_size)
+  validate_string($banned_email_file)
+  validate_string($email_password_file)
+  validate_string($guest_username)
+  validate_string($message_file)
+  validate_string($rsa_cert_file)
+  validate_string($secure_chroot_dir)
+  validate_string($ssl_ciphers)
+  validate_string($userlist_file)
+  validate_string($vsftpd_log_file)
+
+  validate_re($anonymous_enable, '^(YES|NO)$',
+    "vsftpd::anon_mkdir_write_enable is <${anon_mkdir_write_enable}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($anonymous_enable, '^(YES|NO)$',
+    "vsftpd::anonymous_enable is <${anonymous_enable}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($local_enable, '^(YES|NO)$',
+    "vsftpd::local_enable is <${local_enable}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($write_enable, '^(YES|NO)$',
+    "vsftpd::write_enable is <${write_enable}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($anon_upload_enable, '^(YES|NO)$',
+    "vsftpd::anon_upload_enable is <${anon_upload_enable}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($anon_mkdir_write_enable, '^(YES|NO)$',
+    "vsftpd::anon_mkdir_write_enable is <${anon_mkdir_write_enable}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($dirmessage_enable, '^(YES|NO)$',
+    "vsftpd::dirmessage_enable is <${dirmessage_enable}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($xferlog_enable, '^(YES|NO)$',
+    "vsftpd::xferlog_enable is <${xferlog_enable}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($connect_from_port_20, '^(YES|NO)$',
+    "vsftpd::connect_from_port_20 is <${connect_from_port_20}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($chown_uploads, '^(YES|NO)$',
+    "vsftpd::chown_uploads is <${chown_uploads}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($xferlog_std_format, '^(YES|NO)$',
+    "vsftpd::xferlog_std_format is <${xferlog_std_format}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($async_abor_enable, '^(YES|NO)$',
+    "vsftpd::async_abor_enable is <${async_abor_enable}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($ascii_upload_enable, '^(YES|NO)$',
+    "vsftpd::ascii_upload_enable is <${ascii_upload_enable}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($ascii_download_enable, '^(YES|NO)$',
+    "vsftpd::ascii_download_enable is <${ascii_download_enable}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($chroot_local_user, '^(YES|NO)$',
+    "vsftpd::chroot_local_user is <${chroot_local_user}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($chroot_list_enable, '^(YES|NO)$',
+    "vsftpd::chroot_list_enable is <${chroot_list_enable}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($ls_recurse_enable, '^(YES|NO)$',
+    "vsftpd::ls_recurse_enable is <${ls_recurse_enable}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($listen, '^(YES|NO)$',
+    "vsftpd::listen is <${listen}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($userlist_enable, '^(YES|NO)$',
+    "vsftpd::userlist_enable is <${userlist_enable}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($userlist_deny, '^(YES|NO)$',
+    "vsftpd::userlist_deny is <${userlist_deny}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($tcp_wrappers, '^(YES|NO)$',
+    "vsftpd::tcp_wrappers is <${tcp_wrappers}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($hide_ids, '^(YES|NO)$',
+    "vsftpd::hide_ids is <${hide_ids}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($setproctitle_enable, '^(YES|NO)$',
+    "vsftpd::setproctitle_enable is <${setproctitle_enable}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($text_userdb_names, '^(YES|NO)$',
+    "vsftpd::text_userdb_names is <${text_userdb_names}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($ssl_request_cert, '^(YES|NO)$',
+    "vsftpd::ssl_request_cert is <${ssl_request_cert}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($anon_other_write_enable, '^(YES|NO)$',
+    "vsftpd::anon_other_write_enable is <${anon_other_write_enable}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($anon_world_readable_only, '^(YES|NO)$',
+    "vsftpd::anon_world_readable_only is <${anon_world_readable_only}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($background, '^(YES|NO)$',
+    "vsftpd::background is <${background}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($check_shell, '^(YES|NO)$',
+    "vsftpd::check_shell is <${check_shell}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($chmod_enable, '^(YES|NO)$',
+    "vsftpd::chmod_enable is <${chmod_enable}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($deny_email_enable, '^(YES|NO)$',
+    "vsftpd::deny_email_enable is <${deny_email_enable}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($dirlist_enable, '^(YES|NO)$',
+    "vsftpd::dirlist_enable is <${dirlist_enable}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($download_enable, '^(YES|NO)$',
+    "vsftpd::download_enable is <${download_enable}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($dual_log_enable, '^(YES|NO)$',
+    "vsftpd::dual_log_enable is <${dual_log_enable}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($force_dot_files, '^(YES|NO)$',
+    "vsftpd::force_dot_files is <${force_dot_files}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($force_anon_data_ssl, '^(YES|NO)$',
+    "vsftpd::force_anon_data_ssl is <${force_anon_data_ssl}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($force_anon_logins_ssl, '^(YES|NO)$',
+    "vsftpd::force_anon_logins_ssl is <${force_anon_logins_ssl}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($force_local_data_ssl, '^(YES|NO)$',
+    "vsftpd::force_local_data_ssl is <${force_local_data_ssl}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($force_local_logins_ssl, '^(YES|NO)$',
+    "vsftpd::force_local_logins_ssl is <${force_local_logins_ssl}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($guest_enable, '^(YES|NO)$',
+    "vsftpd::guest_enable is <${guest_enable}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($listen_ipv6, '^(YES|NO)$',
+    "vsftpd::listen_ipv6 is <${listen_ipv6}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($lock_upload_files, '^(YES|NO)$',
+    "vsftpd::lock_upload_files is <${lock_upload_files}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($log_ftp_protocol, '^(YES|NO)$',
+    "vsftpd::log_ftp_protocol is <${log_ftp_protocol}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($mdtm_write, '^(YES|NO)$',
+    "vsftpd::mdtm_write is <${mdtm_write}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($no_anon_password, '^(YES|NO)$',
+    "vsftpd::no_anon_password is <${no_anon_password}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($no_log_lock, '^(YES|NO)$',
+    "vsftpd::no_log_lock is <${no_log_lock}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($one_process_model, '^(YES|NO)$',
+    "vsftpd::one_process_model is <${one_process_model}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($passwd_chroot_enable, '^(YES|NO)$',
+    "vsftpd::passwd_chroot_enable is <${passwd_chroot_enable}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($pasv_addr_resolve, '^(YES|NO)$',
+    "vsftpd::pasv_addr_resolve is <${pasv_addr_resolve}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($pasv_enable, '^(YES|NO)$',
+    "vsftpd::pasv_enable is <${pasv_enable}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($pasv_promiscuous, '^(YES|NO)$',
+    "vsftpd::pasv_promiscuous is <${pasv_promiscuous}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($port_enable, '^(YES|NO)$',
+    "vsftpd::port_enable is <${port_enable}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($port_promiscuous, '^(YES|NO)$',
+    "vsftpd::port_promiscuous is <${port_promiscuous}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($reverse_lookup_enable, '^(YES|NO)$',
+    "vsftpd::reverse_lookup_enable is <${reverse_lookup_enable}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($run_as_launching_user, '^(YES|NO)$',
+    "vsftpd::run_as_launching_user is <${run_as_launching_user}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($secure_email_list_enable, '^(YES|NO)$',
+    "vsftpd::secure_email_list_enable is <${secure_email_list_enable}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($session_support, '^(YES|NO)$',
+    "vsftpd::session_support is <${session_support}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($ssl_enable, '^(YES|NO)$',
+    "vsftpd::ssl_enable is <${ssl_enable}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($ssl_sslv2, '^(YES|NO)$',
+    "vsftpd::ssl_sslv2 is <${ssl_sslv2}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($ssl_sslv3, '^(YES|NO)$',
+    "vsftpd::ssl_sslv3 is <${ssl_sslv3}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($ssl_tlsv1, '^(YES|NO)$',
+    "vsftpd::ssl_tlsv1 is <${ssl_tlsv1}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($syslog_enable, '^(YES|NO)$',
+    "vsftpd::syslog_enable is <${syslog_enable}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($tilde_user_enable, '^(YES|NO)$',
+    "vsftpd::tilde_user_enable is <${tilde_user_enable}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($use_localtime, '^(YES|NO)$',
+    "vsftpd::use_localtime is <${use_localtime}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($use_sendfile, '^(YES|NO)$',
+    "vsftpd::use_sendfile is <${use_sendfile}>. Must be either 'YES' or 'NO'.")
+
+  validate_re($virtual_use_local_privs, '^(YES|NO)$',
+    "vsftpd::virtual_use_local_privs is <${virtual_use_local_privs}>. Must be either 'YES' or 'NO'.")
 
   package { $package_name: ensure => $package_ensure }
 
@@ -155,4 +471,3 @@ class vsftpd (
   }
 
 }
-
