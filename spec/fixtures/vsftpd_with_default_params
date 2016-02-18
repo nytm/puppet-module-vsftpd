@@ -54,6 +54,11 @@ anon_upload_enable=NO
 # new directories.
 anon_mkdir_write_enable=NO
 
+# If set to YES, anonymous users will be permitted to perform write operations
+# other than upload and create directory, such as deletion and renaming.
+# This is generally not recommended but included for completeness.
+anon_other_write_enable=NO
+
 # The value that the umask for file creation is set to for anonymous users.
 # NOTE! If you want to specify octal values, remember the "0" prefix otherwise
 # the value will be treated as a base 10 integer!
