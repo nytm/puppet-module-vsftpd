@@ -41,8 +41,7 @@ describe 'vsftpd' do
     }
   }
 
-  ['RedHat', 'CentOS', 'Amazon', 'Debian', 'Ubuntu', 'Fedora',
-  ].each do |operatingsystem|
+  config_matrix.each do |operatingsystem, data|
     context "with default params on operatingsystem #{operatingsystem}" do
           let :facts do
             {
@@ -74,8 +73,7 @@ describe 'vsftpd' do
         }
     end
   end
-  ['RedHat', 'CentOS', 'Amazon', 'Debian', 'Ubuntu', 'Fedora',
-  ].each do |operatingsystem|
+  config_matrix.each do |operatingsystem, data|
     context "with default params changed in hiera on operatingsystem #{operatingsystem}" do
           let :facts do
             {
