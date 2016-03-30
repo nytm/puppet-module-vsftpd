@@ -50,7 +50,6 @@ class vsftpd (
   $message_file              =  '.message',
   $ssl_ciphers               =  'DES-CBC3-SHA',
   $xferlog_file              =  '/var/log/xferlog',
-  $secure_chroot_dir         =  '/usr/share/empty',
   $vsftpd_log_file           =  '/var/log/vsftpd.log',
   $userlist_file             =  '/etc/vsftpd/user_list',
   $chroot_list_file          =  '/etc/vsftpd/chroot_list',
@@ -125,6 +124,7 @@ class vsftpd (
   $use_localtime             =  'NO',
   $virtual_use_local_privs   =  'NO',
 
+  $secure_chroot_dir         =  undef,
   $pasv_address              =  undef,
   $hide_file                 =  undef,
   $banner_file               =  undef,
@@ -161,6 +161,25 @@ class vsftpd (
 
   # Validate all the parameters!
 
+  if $secure_chroot_dir == undef {
+    case $::operatingsystem {
+      'RedHat',
+      'CentOS',
+      'Amazon': {
+        $secure_chroot_dir_real = '/usr/share/empty'
+      }
+      'Debian',
+      'Ubuntu': {
+        $secure_chroot_dir_real = '/var/run/vsftpd/empty'
+      }
+      default: {
+        $secure_chroot_dir_real = '/usr/share/empty'
+      }
+    }
+  }
+  else {
+    $secure_chroot_dir_real = $secure_chroot_dir
+  }
   if $ftpd_banner != undef {
     validate_string($ftpd_banner)
   }
@@ -252,8 +271,8 @@ class vsftpd (
   validate_string($guest_username)
   validate_string($message_file)
   validate_string($rsa_cert_file)
-  validate_string($secure_chroot_dir)
   validate_string($ssl_ciphers)
+  validate_absolute_path($secure_chroot_dir_real)
   validate_string($userlist_file)
   validate_string($vsftpd_log_file)
 
@@ -462,6 +481,15 @@ class vsftpd (
     require   => Package[$package_name],
     enable    => true,
     hasstatus => true,
+  }
+
+  file { "${secure_chroot_dir_real}":
+    ensure  => 'directory',
+    mode    => '0555',
+    owner   => 'root',
+    group   => 'root',
+    require => Package[$package_name],
+    notify  => Service[$service_name],
   }
 
   file { "${confdir}/vsftpd.conf":

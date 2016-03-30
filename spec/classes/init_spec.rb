@@ -1,14 +1,46 @@
 require 'spec_helper'
 
 describe 'vsftpd' do
-  config_dir = {
-    'RedHat'  => '/etc/vsftpd/vsftpd.conf',
-    'CentOS'  => '/etc/vsftpd/vsftpd.conf',
-    'Amazon'  => '/etc/vsftpd/vsftpd.conf',
-    'Fedora'  => '/etc/vsftpd/vsftpd.conf',
-    'Debian'  => '/etc/vsftpd.conf',
-    'Ubuntu'  => '/etc/vsftpd.conf',
+
+  config_matrix = {
+    'RedHat' => {
+      'config_file'         => '/etc/vsftpd/vsftpd.conf',
+      'chroot_dir'          => '/usr/share/empty',
+      'with_def_params'     => 'vsftpd_with_default_params_rpm_based',
+      'with_nondef_params'  => 'vsftpd_without_default_params_rpm_based',
+    },
+    'CentOS' => {
+      'config_file'         => '/etc/vsftpd/vsftpd.conf',
+      'chroot_dir'          => '/usr/share/empty',
+      'with_def_params'     => 'vsftpd_with_default_params_rpm_based',
+      'with_nondef_params'  => 'vsftpd_without_default_params_rpm_based',
+    },
+    'Amazon' => {
+      'config_file'         => '/etc/vsftpd/vsftpd.conf',
+      'chroot_dir'          => '/usr/share/empty',
+      'with_def_params'     => 'vsftpd_with_default_params_rpm_based',
+      'with_nondef_params'  => 'vsftpd_without_default_params_rpm_based',
+    },
+    'Fedora' => {
+      'config_file'         => '/etc/vsftpd/vsftpd.conf',
+      'chroot_dir'          => '/usr/share/empty',
+      'with_def_params'     => 'vsftpd_with_default_params_rpm_based',
+      'with_nondef_params'  => 'vsftpd_without_default_params_rpm_based',
+    },
+    'Debian' => {
+      'config_file'         => '/etc/vsftpd.conf',
+      'chroot_dir'          => '/var/run/vsftpd/empty',
+      'with_def_params'     => 'vsftpd_with_default_params_apt_based',
+      'with_nondef_params'  => 'vsftpd_without_default_params_apt_based',
+    },
+    'Ubuntu' => {
+      'config_file'         => '/etc/vsftpd.conf',
+      'chroot_dir'          => '/var/run/vsftpd/empty',
+      'with_def_params'     => 'vsftpd_with_default_params_apt_based',
+      'with_nondef_params'  => 'vsftpd_without_default_params_apt_based',
+    }
   }
+
   ['RedHat', 'CentOS', 'Amazon', 'Debian', 'Ubuntu', 'Fedora',
   ].each do |operatingsystem|
     context "with default params on operatingsystem #{operatingsystem}" do
@@ -27,10 +59,17 @@ describe 'vsftpd' do
               'ensure' => 'installed',
             })
           }
+          it do
+            is_expected.to contain_file(config_matrix[operatingsystem]['chroot_dir']).with({
+              'ensure' => 'directory',
+              'owner'  => 'root',
+              'group'  => 'root',
+              'mode'   => '0555',
+            })
+          end
           it {
-            should contain_file(config_dir[operatingsystem]).with({
-              'path' => config_dir[operatingsystem],
-              'content' => File.read(fixtures('vsftpd_with_default_params'))
+            should contain_file(config_matrix[operatingsystem]['config_file']).with({
+              'content' => File.read(fixtures(config_matrix[operatingsystem]['with_def_params']))
             })
         }
     end
@@ -54,10 +93,17 @@ describe 'vsftpd' do
               'ensure' => 'installed',
             })
           }
+          it do
+            is_expected.to contain_file(config_matrix[operatingsystem]['chroot_dir']).with({
+              'ensure' => 'directory',
+              'owner'  => 'root',
+              'group'  => 'root',
+              'mode'   => '0555',
+            })
+          end
           it {
-            should contain_file(config_dir[operatingsystem]).with({
-              'path' => config_dir[operatingsystem],
-              'content' => File.read(fixtures('vsftpd_without_default_params'))
+            should contain_file(config_matrix[operatingsystem]['config_file']).with({
+              'content' => File.read(fixtures(config_matrix[operatingsystem]['with_nondef_params']))
             })
         }
     end
@@ -228,7 +274,7 @@ describe 'vsftpd' do
 
     validations = {
       'string' => {
-        :name    => ['guest_username', 'pam_service_name', 'ftp_username', 'chown_username', 'nopriv_user', 'message_file', 'ssl_ciphers', 'xferlog_file', 'secure_chroot_dir', 'vsftpd_log_file', 'userlist_file', 'chroot_list_file', 'banned_email_file', 'email_password_file', 'rsa_cert_file', 'ftpd_banner', 'hide_file', 'banner_file', 'allow_writeable_chroot', 'anon_root', 'cmds_allowed', 'deny_file', 'dsa_cert_file', 'dsa_private_key_file', 'listen_address', 'listen_address6', 'local_root', 'pasv_address', 'rsa_private_key_file', 'user_config_dir', 'user_sub_token'],
+        :name    => ['guest_username', 'pam_service_name', 'ftp_username', 'chown_username', 'nopriv_user', 'message_file', 'ssl_ciphers', 'xferlog_file', 'vsftpd_log_file', 'userlist_file', 'chroot_list_file', 'banned_email_file', 'email_password_file', 'rsa_cert_file', 'ftpd_banner', 'hide_file', 'banner_file', 'allow_writeable_chroot', 'anon_root', 'cmds_allowed', 'deny_file', 'dsa_cert_file', 'dsa_private_key_file', 'listen_address', 'listen_address6', 'local_root', 'pasv_address', 'rsa_private_key_file', 'user_config_dir', 'user_sub_token'],
         :valid   => ['string_word'],
         :invalid => [['array'],a={'ha'=>'sh'},true,false],
         :message => 'is not a string',

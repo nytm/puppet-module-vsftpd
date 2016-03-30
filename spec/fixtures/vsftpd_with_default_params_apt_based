@@ -20,79 +20,55 @@
 # When enabled, and vsftpd is started in "listen" mode, vsftpd will background
 # the listener process. i.e. control will immediately be returned to the shell
 # which launched vsftpd.
-background=<%= @background %>
+background=YES
 
 # Note! This option only has an effect for non-PAM builds of vsftpd. If disabled,
 # vsftpd will not check /etc/shells for a valid user shell for local logins.
-check_shell=<%= @check_shell %>
+check_shell=YES
 
 # This is the name of the user we use for handling anonymous FTP.
 # The home directory of this user is the root of the anonymous FTP area.
 # Default: ftp
-ftp_username=<%= @ftp_username %>
+ftp_username=ftp
 
-<% if @ftpd_banner -%>
-# You may fully customise the login banner string:
-ftpd_banner=<%= @ftpd_banner %>
-<% end -%>
-<% if @banner_file -%>
-# The banner file will override the string set in the ftpd_banner directive.
-banner_file=<%= @banner_file %>
-<% end -%>
 
 # Uncomment this to allow local users to log in.
-local_enable=<%= @local_enable %>
+local_enable=NO
 
-<% if @local_root -%>
-# This option represents a directory which vsftpd will try to change into after
-# a local (i.e. Non-anonymous) login. Failure is silently ignored.
-# Default: (None)
-local_root=<%= @local_root %>
-<% end -%>
 
 # Default umask for local users is 077. You may wish to change this to 022,
 # if your users expect that (022 is used by most other ftpd's)
-local_umask=<%= @local_umask %>
+local_umask=077
 
 # Allow anonymous FTP? (Beware - allowed by default if you comment this out).
-anonymous_enable=<%= @anonymous_enable %>
+anonymous_enable=YES
 
-<% if @anonymous_enable == 'YES' -%>
-no_anon_password=<%= @no_anon_password %>
+no_anon_password=NO
 
-<% end -%>
-<% if @anon_root -%>
-
-  # This option represents a directory which vsftpd will try to change into after
-# an anonymous login. Failure is silently ignored.
-# Default: (None)
-anon_root=<%= @anon_root %>
-
-<% end -%>
 # Set this to "YES" to allow the anonymous FTP user to upload files. This only
 # has an effect if the above global write enable is activated. Also, you will
 # obviously need to create a directory writable by the FTP user.
-anon_upload_enable=<%= @anon_upload_enable %>
+anon_upload_enable=NO
 
 # Set this to to "YES" if you want the anonymous FTP user to be able to create
 # new directories.
-anon_mkdir_write_enable=<%= @anon_mkdir_write_enable %>
+anon_mkdir_write_enable=NO
 
 # If set to YES, anonymous users will be permitted to perform write operations
 # other than upload and create directory, such as deletion and renaming.
 # This is generally not recommended but included for completeness.
-anon_other_write_enable=<%= @anon_other_write_enable %>
+anon_other_write_enable=NO
 
 # The value that the umask for file creation is set to for anonymous users.
 # NOTE! If you want to specify octal values, remember the "0" prefix otherwise
 # the value will be treated as a base 10 integer!
 # Default: 077
-anon_umask=<%= @anon_umask %>
+anon_umask=077
 
 # The permissions with which uploaded files are created. Umasks are applied on
 # top of this value. You may wish to change to 0777 if you want uploaded files to be executable.
 # Default: 0666
-file_open_mode=<%= @file_open_mode %>
+file_open_mode=0666
 
 
 # This controls whether vsftpd attempts to maintain sessions for logins. If
@@ -102,61 +78,51 @@ file_open_mode=<%= @file_open_mode %>
 # and you wish to give vsftpd more opportunity to run with less processes and/or
 # less privilege. NOTE - utmp and wtmp support is only provided with PAM enabled builds.
 # Default: YES
-session_support=<%= @session_support %>
+session_support=NO
 
 # Uncomment this to enable any form of FTP write command.
-write_enable=<%= @write_enable %>
+write_enable=NO
 
 # If enabled, vsftpd will display directory listings with the time in your local
 # time zone. The default is to display GMT. The times returned by the MDTM FTP
 # command are also affected by this option.
 # Default: NO
-use_localtime=<%= @use_localtime %>
+use_localtime=NO
 
 # Activate directory messages - messages given to remote users when they
 # go into a certain directory.
-dirmessage_enable=<%= @dirmessage_enable %>
-<% if @dirmessage_enable == 'YES' -%>
-# This option is the name of the file we look for when a new directory is entered.
-# The contents are displayed to the remote user. This option is only relevant if
-# the option dirmessage_enable is enabled.
-# Default: .message
-message_file=<%= @message_file %>
-<% end -%>
+dirmessage_enable=NO
 
 # It is recommended that you define on your system a unique user which the
 # ftp server can use as a totally isolated and unprivileged user. Default is "nobody".
-nopriv_user=<%= @nopriv_user %>
+nopriv_user=nobody
 
 # If you want, you can arrange for uploaded anonymous files to be owned by
 # a different user. Note! Using "root" for uploaded files is not
 # recommended! Default for chown_uploads is "NO". Default chown_user is "root".
-chown_uploads=<%= @chown_uploads %>
-<% if @chown_uploads == 'YES' -%>
-chown_username=<%= @chown_username %>
-<% end -%>
+chown_uploads=NO
 
 # By default, numeric IDs are shown in the user and group fields of directory
 # listings. You can get textual names by enabling this parameter.
 # It is off by default for performance reasons.
-text_userdb_names=<%= @text_userdb_names %>
+text_userdb_names=NO
 
 # If activated, files and directories starting with . will be shown in directory
 # listings even if the "a" flag was not used by the client.
 # This override excludes the "." and ".." entries.
 # Default: NO
-force_dot_files=<%= @force_dot_files %>
+force_dot_files=NO
 
 # When enabled, this setting will allow MDTM to set file modification times
 # (subject to the usual access checks).
 # Default: YES
-mdtm_write=<%= @mdtm_write %>
+mdtm_write=YES
 
 # If enabled, virtual users will use the same privileges as local users.
 # By default, virtual users will use the same privileges as anonymous users,
 # which tends to be more restrictive (especially in terms of write access).
 # Default: NO
-virtual_use_local_privs=<%= @virtual_use_local_privs %>
+virtual_use_local_privs=NO
 
 
 ####################
@@ -166,96 +132,30 @@ virtual_use_local_privs=<%= @virtual_use_local_privs %>
 # When "listen" directive is enabled, vsftpd runs in standalone mode and
 # listens on IPv4 sockets. This directive cannot be used in conjunction
 # with the listen_ipv6 directive. Default value is "YES"
-listen=<%= @listen %>
-listen_port=<%= @listen_port %>
-<% if @listen_address -%>
-# Ipv4 address to bind to. (Default is none (0.0.0.0))
-listen_address=<%= @listen_address %>
-<% end -%>
-<% if @listen_address6 -%>
-# Ipv4 address to bind to. Default is none (::1))
-listen_address6=<%= @listen_address6 %>
-<% end -%>
+listen=YES
+listen_port=21
 
 # To enable ipv6 support you can not listen to ipv4. VSFTPD requires you to
 # run two copies of vsftpd with two configuration files. Default value is "NO"
-<% if @listen == 'NO' -%>
-listen_ipv6=<%= @listen_ipv6 %>
-<% end -%>
 
 # An internal setting used for testing the relative benefit of using the
 # sendfile() system call on your platform.
-use_sendfile=<%= @use_sendfile %>
+use_sendfile=YES
 
 # You may specify an explicit list of local users to chroot() to their home
 # directory. If chroot_local_user is YES, then this list becomes a list of
 # users to NOT chroot(). Default NO.
-chroot_local_user=<%= @chroot_local_user %>
-chroot_list_enable=<%= @chroot_list_enable %>
-<% if @chroot_list_enable == 'YES' -%>
-chroot_list_file=<%= @chroot_list_file %>
-<% end -%>
+chroot_local_user=NO
+chroot_list_enable=NO
 
-ssl_enable=<%= @ssl_enable %>
-<% if @ssl_enable == 'YES' -%>
-# This option specifies the location of the RSA certificate to use for SSL encrypted connections.
-# Default: /usr/share/ssl/certs/vsftpd.pem
-rsa_cert_file=<%= @rsa_cert_file %>
-<% if @rsa_private_key_file -%>
-rsa_private_key_file=<%= @rsa_private_key_file %>
-<% end -%>
-<% if @dsa_cert_file -%>
-dsa_cert_file=<%= @dsa_cert_file %>
-<% end -%>
-<% if @dsa_private_key_file -%>
-dsa_private_key_file=<%= @dsa_private_key_file %>
-<% end -%>
-
-ssl_sslv2=<%= @ssl_sslv2 %>
-ssl_sslv3=<%= @ssl_sslv3 %>
-ssl_tlsv1=<%= @ssl_tlsv1 %>
-
-
-# If enabled, vsftpd will request (but not necessarily require; see require_cert)
-# a certificateonincomingSSLconnections. Normally this should not cause any
-# trouble at all, but IBM zOS seems to have issues. (New in v2.0.7).
-# Default is "YES"
-ssl_request_cert=<%= @ssl_request_cert %>
-
-# Only applies if ssl_enable is activated. If activated, all anonymous logins are
-# forced to use a secure SSL connection in order to send and receive data
-# on data connections. Default is "NO".
-force_anon_data_ssl=<%= @force_anon_data_ssl %>
-
-# Only applies if ssl_enable is activated. If activated, all anonymous logins
-# are forced to use a secure SSL connection in order to send the password.
-# Default is "NO".
-force_anon_logins_ssl=<%= @force_anon_logins_ssl %>
-
-# Only applies if ssl_enable is activated. If activated, all non-anonymous
-# logins are forced to use a secure SSL connection in order to send and
-# receive data on data connections. Default is "NO".
-force_local_data_ssl=<%= @force_local_data_ssl %>
-
-# Only applies if ssl_enable is activated. If activated, all non-anonymous
-# logins are forced to use a secure SSL connection in order to send the password.
-# Default is "NO"
-force_local_logins_ssl=<%= @force_local_logins_ssl %>
-
-# This option can be used to select which SSL ciphers vsftpd will allow for
-# encrypted SSL connections. See the ciphers man page for further details.
-# Note that restricting ciphers can be a useful security precaution as it
-# prevents malicious remote parties forcing a cipher which they have found
-# problems with. Default is "DES-CBC3-SHA"
-ssl_ciphers=<%= @ssl_ciphers %>
-<% end -%>
+ssl_enable=NO
 
 # You may activate the "-R" option to the builtin ls. This is disabled by
 # default to avoid remote users being able to cause excessive I/O on large
 # sites. However, some broken FTP clients such as "ncftp" and "mirror" assume
 # the presence of the "-R" option, so there is a strong case for enabling it.
 # Default is "NO"
-ls_recurse_enable=<%= @ls_recurse_enable %>
+ls_recurse_enable=NO
 
 # If enabled, vsftpd will try and resolve pathnames such as ~chris/pics, i.e.
 # a tilde followed by a username. Note that vsftpd will always resolve the
@@ -263,7 +163,7 @@ ls_recurse_enable=<%= @ls_recurse_enable %>
 # directory). Note that ~user paths will only resolve if the file /etc/passwd
 # may be found within the _current_ chroot() jail.
 # Default: NO
-tilde_user_enable=<%= @tilde_user_enable %>
+tilde_user_enable=NO
 
 
 ####################
@@ -272,32 +172,32 @@ tilde_user_enable=<%= @tilde_user_enable %>
 
 # If enabled, then any log output which would have gone to /var/log/vsftpd.log
 # goes to the system log instead. Logging is done under the FTPD facility.
-syslog_enable=<%= @syslog_enable %>
+syslog_enable=NO
 
 # Activate logging of uploads/downloads.
-xferlog_enable=<%= @xferlog_enable %>
+xferlog_enable=NO
 
 # You may override where the log file goes if you like. The default is: /var/log/xferlog
-xferlog_file=<%= @xferlog_file %>
+xferlog_file=/var/log/xferlog
 
 # If you want, you can have your log file in standard ftpd xferlog format.
 # Note that the default log file location is /var/log/xferlog in this case.
-xferlog_std_format=<%= @xferlog_std_format %>
+xferlog_std_format=NO
 
 # If enabled, two log files are generated in parallel, going by default to
 # /var/log/xferlog and /var/log/vsftpd.log. The former is a wu-ftpd style
 # transfer log, parseable by standard tools. The latter is vsftpd's own style log.
-dual_log_enable=<%= @dual_log_enable %>
+dual_log_enable=NO
 
 # When enabled, all FTP requests and responses are logged, providing the option
 # xferlog_std_format is not enabled. Useful for debugging.
-log_ftp_protocol=<%= @log_ftp_protocol %>
+log_ftp_protocol=NO
 
 # When enabled, this prevents vsftpd from taking a file lock when writing to
 # log files. This option should generally not be enabled. It exists to workaround
 # operating system bugs such as the Solaris / Veritas filesystem combination
 # which has been observed to sometimes exhibit hangs trying to lock log files.
-no_log_lock=<%= @no_log_lock %>
+no_log_lock=NO
 
 # This option is the name of the file to which we write the vsftpd style log file.
 # This log is only written if the option xferlog_enable is set, and
@@ -305,114 +205,64 @@ no_log_lock=<%= @no_log_lock %>
 # the option dual_log_enable. One further complication - if you have set
 # syslog_enable, then this file is not written and output is sent to the
 # system log instead.
-vsftpd_log_file=<%= @vsftpd_log_file %>
+vsftpd_log_file=/var/log/vsftpd.log
 
 ####################
 #### Security ######
 ####################
-<% if @cmds_allowed -%>
-
-# This options specifies a comma separated list of allowed FTP commands
-# (post login. USER, PASS and QUIT and others are always allowed pre-login).
-# Other commands are rejected. This is a powerful method of really locking
-# down an FTP server. Example: cmds_allowed=PASV,RETR,QUIT
-cmds_allowed=<%= @cmds_allowed %>
-
-<% end -%>
-<% if @user_config_dir -%>
-
-# This powerful option allows the override of any config option specified in the
-# manual page, on a per-user basis. Usage is simple, and is best illustrated with an
-# example. If you set user_config_dir to be /etc/vsftpd_user_conf and then log on
-# as the user "chris", then vsftpd will apply the settings in the file
-# /etc/vsftpd_user_conf/chris for the duration of the session. The format of this
-# file is as detailed in this manual page! PLEASE NOTE that not all settings are
-# effective on a per-user basis. For example, many settings only prior to the
-# user's session being started. Examples of settings which will not affect any
-# behviour on a per-user basis include listen_address, banner_file, max_per_ip,
-# max_clients, xferlog_file, etc.
-user_config_dir=<%= @user_config_dir %>
-
-<% end -%>
-<% if @user_sub_token -%>
-
-  # This option is useful is conjunction with virtual users. It is used to automatically
-  # generate a home directory for each virtual user, based on a template. For example,
-  # if the home directory of the real user specified via guest_username is
-  # /home/virtual/$USER, and user_sub_token is set to $USER, then when virtual user
-  # fred logs in, he will end up (usually chroot()'ed) in the directory /home/virtual/fred.
-  # This option also takes affect if local_root contains user_sub_token.
-  # Default: (None)
-user_sub_token=<%= @user_sub_token %>
-
-<% end -%>
 
 # When enabled, allows use of the SITE CHMOD command.
 # NOTE! This only applies to local users. Anonymous users never get to use SITE CHMOD.
 # Default: YES
-chmod_enable=<%= @chmod_enable %>
+chmod_enable=YES
 
 # If set to NO, all directory list commands will give permission denied.
 # Default: YES
-dirlist_enable=<%= @dirlist_enable %>
+dirlist_enable=YES
 
 # If set to NO, all download requests will give permission denied.
 # Default: YES
-download_enable=<%= @download_enable %>
+download_enable=YES
 
 # When enabled, all uploads proceed with a write lock on the upload file. All
 # downloads proceed with a shared read lock on the download file.
 # WARNING! Before enabling this, be aware that malicious readers could starve
 # a writer wanting to e.g. append a file.
 # Default: YES
-lock_upload_files=<%= @lock_upload_files %>
+lock_upload_files=NO
 
 # When enabled, anonymous users will only be allowed to download files which
 # are world readable. This is recognising that the ftp user may own files,
 # especially in the presence of uploads.
 # Default: YES
-anon_world_readable_only=<%= @anon_world_readable_only %>
+anon_world_readable_only=YES
 
 # You may specify a file of disallowed anonymous e-mail addresses. Apparently
 # useful for combatting certain DoS attacks.
-deny_email_enable=<%= @deny_email_enable %>
-<% if @deny_email_enable == 'YES' -%>
-banned_email_file=<%= @banned_email_file %>
-<% end -%>
+deny_email_enable=NO
 
 # This string is the name of the PAM service vsftpd will use. Default: ftp
-pam_service_name=<%= @pam_service_name %>
+pam_service_name=ftp
 
 # If enabled, along with chroot_local_user , then a chroot() jail location may
 # be specified on a per-user basis. Each user's jail is derived from their
 # home directory string in /etc/passwd. The occurrence of /./ in the home
 # directory string denotes that the jail is at that particular location in the path.
 # Default: NO
-passwd_chroot_enable=<%= @passwd_chroot_enable %>
+passwd_chroot_enable=NO
 
 # This option should be the name of a directory which is empty. Also, the
 # directory should not be writable by the ftp user. This directory is used as a
 # secure chroot() jail at times vsftpd does not require filesystem access.
 # Default: /usr/share/empty
-secure_chroot_dir=<%= @secure_chroot_dir_real %>
+secure_chroot_dir=/var/run/vsftpd/empty
 
 # If enabled, vsftpd will load a list of usernames, from the filename given by
 # userlist_file. If a user tries to log in using a name in this file, they will
 # be denied before they are asked for a password. This may be useful in
 # preventing cleartext passwords being transmitted. See also userlist_deny.
 # Default: NO
-userlist_enable=<%= @userlist_enable %>
-<% if @userlist_enable == 'YES' -%>
-# This option is the name of the file loaded when the userlist_enable option is active.
-# Default: /etc/vsftpd.user_list
-userlist_file=<%= @userlist_file %>
-# This option is examined if userlist_enable is activated. If you set this setting
-# to NO, then users will be denied login unless they are explicitly listed in the
-# file specified by userlist_file. When login is denied, the denial is issued
-# before the user is asked for a password.
-# Default: YES
-userlist_deny=<%= @userlist_deny %>
-<% end -%>
+userlist_enable=NO
 
 # If enabled, and vsftpd was compiled with tcp_wrappers support, incoming
 # connections will be fed through tcp_wrappers access control. Furthermore,
@@ -420,66 +270,29 @@ userlist_deny=<%= @userlist_deny %>
 # VSFTPD_LOAD_CONF environment variable, then the vsftpd session will try and
 # load the vsftpd configuration file specified in this variable.
 # Default: NO
-tcp_wrappers=<%= @tcp_wrappers %>
+tcp_wrappers=NO
 
 # If you have a Linux 2.4 kernel, it is possible to use a different security
 # model which only uses one process per connection. It is a less pure security
 # model, but gains you performance. You really don't want to enable this unless
 # you know what you are doing, and your site supports huge numbers of simultaneously connected users.
 # Default: NO
-one_process_model=<%= @one_process_model %>
+one_process_model=NO
 
-<% if @deny_file -%>
-# This option can be used to set a pattern for filenames (and directory names etc.)
-# which should not be accessible in any way. The affected items are not hidden,
-# but any attempt to do anything to them (download, change into directory, affect
-# something within directory etc.) will be denied. This option is very simple,
-# and should not be used for serious access control - the filesystem's permissions
-# should be used in preference. However, this option may be useful in certain virtual
-# user setups. In particular aware that if a filename is accessible by a variety
-# of names (perhaps due to symbolic links or hard links), then care must be taken
-# to deny access to all the names. Access will be denied to items if their name
-# contains the string given by hide_file, or if they match the regular expression
-# specified by hide_file. Note that vsftpd's regular expression matching code is
-# a simple implementation which is a subset of full regular expression functionality.
-# Because of this, you will need to carefully and exhaustively test any application
-# of this option. And you are recommended to use filesystem permissions for any
-# important security policies due to their greater reliability. Supported regex
-# syntax is any number of *, ? and unnested {,} operators. Regex matching is only
-# supported on the last component of a path, e.g. a/b/? is supported but a/?/c is not.
-# Example: deny_file={*.mp3,*.mov,.private}
-# Default: (None)
-deny_file=<%= @deny_file %>
-<% end -%>
 
-<% if @hide_file -%>
-# This option can be used to set a pattern for filenames (and directory names etc.)
-# which should be hidden from directory listings. Despite being hidden, the
-# files / directories etc. are fully accessible to clients who know what names to
-# actually use. Items will be hidden if their names contain the string given by
-# hide_file, or if they match the regular expression specified by hide_file.
-# Note that vsftpd's regular expression matching code is a simple implementation
-# which is a subset of full regular expression functionality. See deny_file
-# for details of exactly what regex syntax is supported.
-# Example: hide_file={*.mp3,.hidden,hide*,h?}
-hide_file=<%= @hide_file %>
-<% end -%>
-hide_ids=<%= @hide_ids %>
+hide_ids=NO
 #
 # If enabled, vsftpd will try and show session status information in the system
 # process listing. In other words, the reported name of the process will change
 # to reflect what a vsftpd session is doing (idle, downloading etc).
 # You probably want to leave this off for security purposes.
 # Default: NO
-setproctitle_enable=<%= @setproctitle_enable %>
+setproctitle_enable=NO
 
 # If enabled, all non-anonymous logins are classed as "guest" logins.
 # A guest login is remapped to the user specified in the guest_username setting.
 # Default: NO
-guest_enable=<%= @guest_enable %>
-<% if @guest_enable == 'YES' -%>
-guest_username=<%= @guest_username %>
-<% end -%>
+guest_enable=NO
 
 # Set to YES if you want only a specified list of e-mail passwords for anonymous
 # logins to be accepted. This is useful as a low-hassle way of restricting access
@@ -488,10 +301,7 @@ guest_username=<%= @guest_username %>
 # specified by the email_password_file setting. The file format is one password
 # per line, no extra whitespace. The default filename is /etc/vsftpd.email_passwords.
 # Default: NO
-secure_email_list_enable=<%= @secure_email_list_enable %>
-<% if @secure_email_list_enable == 'YES' -%>
-email_password_file=<%= @email_password_file %>
-<% end -%>
+secure_email_list_enable=NO
 
 
 # Set to YES if you want vsftpd to run as the user which launched vsftpd. This
@@ -506,7 +316,7 @@ email_password_file=<%= @email_password_file %>
 # non-anonymous logins, upload ownership changing, connecting from port 20
 # and listen ports less than 1024 are not expected to work. Other options may be impacted.
 # Default: NO
-run_as_launching_user=<%= @run_as_launching_user %>
+run_as_launching_user=NO
 
 ####################
 #### Connection # ##
@@ -514,91 +324,88 @@ run_as_launching_user=<%= @run_as_launching_user %>
 
 # Max clients vsftpd will allow to have connected.
 # Max connects per IP.
-max_clients=<%= @max_clients %>
-max_per_ip=<%= @max_per_ip %>
+max_clients=0
+max_per_ip=0
 
 # Make sure PORT transfer connections originate from port 20 (ftp-data).
-connect_from_port_20=<%= @connect_from_port_20 %>
+connect_from_port_20=NO
 
 # The min/max port to allocate for PASV style data connections. Can be used
 # to specify a narrow port range to assist firewalling.
 # Default: 0 (use any port)
-pasv_min_port=<%= @pasv_min_port %>
-pasv_max_port=<%= @pasv_max_port %>
+pasv_min_port=0
+pasv_max_port=0
 
 # Set to YES if you want to use a hostname (as opposed to IP address) in
 # the pasv_address option.
-pasv_addr_resolve=<%= @pasv_addr_resolve %>
+pasv_addr_resolve=NO
 
 # Set to NO if you want to disallow the PASV method of obtaining a data connection.
-pasv_enable=<%= @pasv_enable %>
-<% if @pasv_address -%>
-pasv_address=<%= @pasv_address %>
-<% end -%>
+pasv_enable=YES
 
 # You probably don't want to change this, but try setting it to something
 # like 8192 for a much smoother bandwidth limiter.
 # Default: 0 (let vsftpd pick a sensible setting)
-trans_chunk_size=<%= @trans_chunk_size %>
+trans_chunk_size=0
 
 # The timeout, in seconds, for a remote client to establish connection with
 # a PASV style data connection.
 # Default: 60
-accept_timeout=<%= @accept_timeout %>
+accept_timeout=60
 
 # The maximum data transfer rate permitted, in bytes per second, for anonymous clients.
 # Default: 0 (Unlimited)
-anon_max_rate=<%= @anon_max_rate %>
+anon_max_rate=0
 
 # After this many login failures, the session is killed.
 # Default: 3
-max_login_fails=<%= @max_login_fails %>
+max_login_fails=3
 
 # The timeout, in seconds, for a remote client to respond to our PORT style
 # data connection.
 # Default: 60
-connect_timeout=<%= @connect_timeout %>
+connect_timeout=60
 
 # The maximum data transfer rate permitted, in bytes per second, for local authenticated users.
 # Default: 0
-local_max_rate=<%= @local_max_rate %>
+local_max_rate=0
 
 # The number of seconds to pause prior to reporting a failed login.
 # Default: 1
-delay_failed_login=<%= @delay_failed_login %>
+delay_failed_login=1
 
 # The number of seconds to pause prior to allowing a successful login.
 # Default: 0
-delay_successful_login=<%= @delay_successful_login %>
+delay_successful_login=0
 
 # Set to YES if you want to disable the PASV security check that ensures the
 # data connection originates from the same IP address as the control connection.
 # Only enable if you know what you are doing! The only legitimate use for this
 # is in some form of secure tunnelling scheme, or perhaps to facilitate FXP support.
-pasv_promiscuous=<%= @pasv_promiscuous %>
+pasv_promiscuous=NO
 
 # Set to NO if you want to disallow the PORT method of obtaining a data connection.
-port_enable=<%= @port_enable %>
+port_enable=YES
 
 # Set to YES if you want to disable the PORT security check that ensures that
 # outgoing data connections can only connect to the client.
 # Only enable if you know what you are doing!
-port_promiscuous=<%= @port_promiscuous %>
+port_promiscuous=NO
 
 # The port from which PORT style connections originate (as long as the poorly
 # named connect_from_port_20 is enabled).
-ftp_data_port=<%= @ftp_data_port %>
+ftp_data_port=20
 
 # You may change the value for timing out an idle session. Default is 600.
-idle_session_timeout=<%= @idle_session_timeout %>
+idle_session_timeout=300
 
 # You may change the value for timing out a data connection. Default is 120.
-data_connection_timeout=<%= @data_connection_timeout %>
+data_connection_timeout=300
 
 # Enable this and the server will recognise asynchronous ABOR requests. Not
 # recommended for security (the code is non-trivial). Not enabling it,
 # however, may confuse older FTP clients. Default is "NO"
-async_abor_enable=<%= @async_abor_enable %>
+async_abor_enable=NO
 
 # By default the server will pretend to allow ASCII mode but in fact ignore
 # the request. Turn on the below options to have the server actually do ASCII
@@ -609,8 +416,8 @@ async_abor_enable=<%= @async_abor_enable %>
 # raw file.
 # ASCII mangling is a horrible feature of the protocol.
 # Default is "NO"
-ascii_upload_enable=<%= @ascii_upload_enable %>
-ascii_download_enable=<%= @ascii_download_enable %>
+ascii_upload_enable=NO
+ascii_download_enable=NO
 
 
 ####################
@@ -618,6 +425,3 @@ ascii_download_enable=<%= @ascii_download_enable %>
 ####################
 # When configuring directives with the directives hash in the vsftpd puppet module
 # they will be specified in this section.
-<% @directives.reject {|key,value| value == :undef}.sort_by {|key,value| key}.each do |key,value| -%>
-<%= key %>=<%= value %>
-<% end -%>
