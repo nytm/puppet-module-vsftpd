@@ -1,2 +1,2 @@
 # Very basic test
-include vsftpd
+include ::vsftpd
