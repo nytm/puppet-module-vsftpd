@@ -13,5 +13,6 @@ RSpec.configure do |config|
   config.default_facts = {
     :environment     => 'rp_env',
     :operatingsystem => 'RedHat',
+    :specific        => nil,      # used in hiera, needed for Puppet 4.0 to 4.2
   }
 end
