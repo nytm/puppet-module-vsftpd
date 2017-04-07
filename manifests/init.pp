@@ -483,7 +483,7 @@ class vsftpd (
     hasstatus => true,
   }
 
-  file { "${secure_chroot_dir_real}":
+  file { $secure_chroot_dir_real:
     ensure  => 'directory',
     mode    => '0555',
     owner   => 'root',
