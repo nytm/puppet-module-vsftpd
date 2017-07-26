@@ -26,8 +26,10 @@ class vsftpd (
   $anon_upload_enable      = 'NO',
   $anon_mkdir_write_enable = 'NO',
   $dirmessage_enable       = 'YES',
+  $dirlist_enable          = 'YES',
   $xferlog_enable          = 'YES',
   $connect_from_port_20    = 'YES',
+  $connect_timeout         = '60',
   $chown_uploads           = 'NO',
   $chown_username          = undef,
   $xferlog_file            = '/var/log/vsftpd.log',
@@ -36,29 +38,35 @@ class vsftpd (
   $data_connection_timeout = '120',
   $nopriv_user             = undef,
   $async_abor_enable       = 'NO',
+  $accept_timeout          = '60',
+  $one_process_model       = 'NO',
   $ascii_upload_enable     = 'NO',
   $ascii_download_enable   = 'NO',
   $ftpd_banner             = undef,
   $chroot_local_user       = 'NO',
   $chroot_list_enable      = 'NO',
   $chroot_list_file        = '/etc/vsftpd/chroot_list',
-  $ls_recurse_enable       = 'NO',
+  $secure_chroot_dir       = undef,
+  $ls_recurse_enable       = 'YES',
   $listen                  = 'YES',
   $listen_port             = undef,
+  $log_ftp_protocol        = 'NO',
   $pam_service_name        = 'vsftpd',
   $userlist_enable         = 'YES',
   $userlist_deny           = undef,
   $tcp_wrappers            = 'YES',
   $hide_file               = undef,
   $hide_ids                = 'NO',
-  $setproctitle_enable     = 'NO',
-  $text_userdb_names       = 'NO',
+  $setproctitle_enable     = undef,
+  $text_userdb_names       = undef,
   $max_clients             = undef,
   $max_per_ip              = undef,
   $pasv_min_port           = undef,
   $pasv_max_port           = undef,
   $ftp_username            = undef,
+  $force_dot_files         = 'NO',
   $banner_file             = undef,
+  $download_enable         = 'YES',
   $allow_writeable_chroot  = undef,
   $directives              = {},
 ) inherits ::vsftpd::params {
@@ -66,17 +74,15 @@ class vsftpd (
   package { $package_name: ensure => installed }
 
   service { $service_name:
-    require   => Package[$package_name],
-    enable    => true,
     ensure    => running,
+    enable    => true,
     hasstatus => true,
+    require   => Package[$package_name],
   }
-
   file { "${confdir}/vsftpd.conf":
     require => Package[$package_name],
     content => template($template),
     notify  => Service[$service_name],
   }
-
 }
 
