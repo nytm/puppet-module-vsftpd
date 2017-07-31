@@ -47,7 +47,7 @@ class vsftpd (
   $chroot_list_enable      = 'NO',
   $chroot_list_file        = '/etc/vsftpd/chroot_list',
   $secure_chroot_dir       = undef,
-  $ls_recurse_enable       = 'YES',
+  $ls_recurse_enable       = 'NO',
   $listen                  = 'YES',
   $listen_port             = undef,
   $log_ftp_protocol        = 'NO',
@@ -74,10 +74,10 @@ class vsftpd (
   package { $package_name: ensure => installed }
 
   service { $service_name:
-    require   => Package[$package_name],
-    enable    => true,
     ensure    => running,
+    enable    => true,
     hasstatus => true,
+    require   => Package[$package_name],
   }
   file { "${confdir}/vsftpd.conf":
     require => Package[$package_name],
