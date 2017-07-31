@@ -26,25 +26,31 @@ class vsftpd (
   $anon_upload_enable      = 'NO',
   $anon_mkdir_write_enable = 'NO',
   $dirmessage_enable       = 'YES',
+  $dirlist_enable          = 'YES',
   $xferlog_enable          = 'YES',
   $connect_from_port_20    = 'YES',
+  $connect_timeout         = '60',
   $chown_uploads           = 'NO',
   $chown_username          = undef,
   $xferlog_file            = '/var/log/vsftpd.log',
   $xferlog_std_format      = 'YES',
   $idle_session_timeout    = '600',
   $data_connection_timeout = '120',
-  $nopriv_user             = undef,
+  $nopriv_user             = 'ftpsecure',
   $async_abor_enable       = 'NO',
+  $accept_timeout          = '60',
+  $one_process_model       = 'NO',
   $ascii_upload_enable     = 'NO',
   $ascii_download_enable   = 'NO',
   $ftpd_banner             = undef,
   $chroot_local_user       = 'NO',
   $chroot_list_enable      = 'NO',
   $chroot_list_file        = '/etc/vsftpd/chroot_list',
+  $secure_chroot_dir       = undef,
   $ls_recurse_enable       = 'NO',
   $listen                  = 'YES',
   $listen_port             = undef,
+  $log_ftp_protocol        = 'NO',
   $pam_service_name        = 'vsftpd',
   $userlist_enable         = 'YES',
   $userlist_deny           = undef,
@@ -58,7 +64,9 @@ class vsftpd (
   $pasv_min_port           = undef,
   $pasv_max_port           = undef,
   $ftp_username            = undef,
+  $force_dot_files         = 'NO',
   $banner_file             = undef,
+  $download_enable         = 'YES',
   $allow_writeable_chroot  = undef,
   $directives              = {},
 ) inherits ::vsftpd::params {
@@ -66,17 +74,15 @@ class vsftpd (
   package { $package_name: ensure => installed }
 
   service { $service_name:
-    require   => Package[$package_name],
-    enable    => true,
     ensure    => running,
+    enable    => true,
     hasstatus => true,
+    require   => Package[$package_name],
   }
-
   file { "${confdir}/vsftpd.conf":
     require => Package[$package_name],
     content => template($template),
     notify  => Service[$service_name],
   }
-
 }
 
