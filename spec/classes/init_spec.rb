@@ -260,6 +260,14 @@ describe 'vsftpd' do
       it { should contain_file(fName).with_content(/^force_local_logins_ssl=YES$/) }
       it { should contain_file(fName).with_content(/^ssl_ciphers=DES-CBC3-SHA$/) }
     end
+    context "defaults with allow_writeable_chroot set to YES" do
+      let :params do
+        {
+          :"allow_writeable_chroot" => 'YES'
+        }
+      end
+      it { should contain_file(fName).with_content(/^allow_writeable_chroot=YES$/) }
+    end
   end
   describe 'variable type and content validations' do
     # set needed custom facts and variables
@@ -272,7 +280,7 @@ describe 'vsftpd' do
 
     validations = {
       'string' => {
-        :name    => ['guest_username', 'pam_service_name', 'ftp_username', 'chown_username', 'nopriv_user', 'message_file', 'ssl_ciphers', 'xferlog_file', 'vsftpd_log_file', 'userlist_file', 'chroot_list_file', 'banned_email_file', 'email_password_file', 'rsa_cert_file', 'ftpd_banner', 'hide_file', 'banner_file', 'allow_writeable_chroot', 'anon_root', 'cmds_allowed', 'deny_file', 'dsa_cert_file', 'dsa_private_key_file', 'listen_address', 'listen_address6', 'local_root', 'pasv_address', 'rsa_private_key_file', 'user_config_dir', 'user_sub_token'],
+        :name    => ['guest_username', 'pam_service_name', 'ftp_username', 'chown_username', 'nopriv_user', 'message_file', 'ssl_ciphers', 'xferlog_file', 'vsftpd_log_file', 'userlist_file', 'chroot_list_file', 'banned_email_file', 'email_password_file', 'rsa_cert_file', 'ftpd_banner', 'hide_file', 'banner_file', 'anon_root', 'cmds_allowed', 'deny_file', 'dsa_cert_file', 'dsa_private_key_file', 'listen_address', 'listen_address6', 'local_root', 'pasv_address', 'rsa_private_key_file', 'user_config_dir', 'user_sub_token'],
         :valid   => ['string_word'],
         :invalid => [['array'],a={'ha'=>'sh'},true,false],
         :message => 'is not a string',
@@ -296,7 +304,7 @@ describe 'vsftpd' do
         :message => '(Expected first argument to be an Integer or Array|Expected [-]?\d+ to be (smaller|greater) or equal to (0|65535))',
       },
       'string_yes_no' => {
-        :name    => ['anonymous_enable', 'local_enable', 'write_enable', 'anon_upload_enable', 'anon_mkdir_write_enable', 'dirmessage_enable', 'xferlog_enable', 'connect_from_port_20', 'chown_uploads', 'xferlog_std_format', 'async_abor_enable', 'ascii_upload_enable', 'ascii_download_enable', 'chroot_local_user', 'chroot_list_enable', 'ls_recurse_enable', 'listen', 'userlist_enable', 'userlist_deny', 'tcp_wrappers', 'hide_ids', 'setproctitle_enable', 'text_userdb_names', 'ssl_request_cert', 'anon_other_write_enable', 'anon_world_readable_only', 'background', 'check_shell', 'chmod_enable', 'deny_email_enable', 'dirlist_enable', 'download_enable', 'dual_log_enable', 'force_dot_files', 'force_anon_data_ssl', 'force_anon_logins_ssl', 'force_local_data_ssl', 'force_local_logins_ssl', 'guest_enable', 'listen_ipv6', 'lock_upload_files', 'log_ftp_protocol', 'mdtm_write', 'no_anon_password', 'no_log_lock', 'one_process_model', 'passwd_chroot_enable', 'pasv_addr_resolve', 'pasv_enable', 'pasv_promiscuous', 'port_enable', 'port_promiscuous', 'reverse_lookup_enable', 'run_as_launching_user', 'secure_email_list_enable', 'session_support', 'ssl_enable', 'ssl_sslv2', 'ssl_sslv3', 'ssl_tlsv1', 'syslog_enable', 'tilde_user_enable', 'use_localtime', 'use_sendfile', 'virtual_use_local_privs'],
+        :name    => ['allow_writeable_chroot', 'anonymous_enable', 'local_enable', 'write_enable', 'anon_upload_enable', 'anon_mkdir_write_enable', 'dirmessage_enable', 'xferlog_enable', 'connect_from_port_20', 'chown_uploads', 'xferlog_std_format', 'async_abor_enable', 'ascii_upload_enable', 'ascii_download_enable', 'chroot_local_user', 'chroot_list_enable', 'ls_recurse_enable', 'listen', 'userlist_enable', 'userlist_deny', 'tcp_wrappers', 'hide_ids', 'setproctitle_enable', 'text_userdb_names', 'ssl_request_cert', 'anon_other_write_enable', 'anon_world_readable_only', 'background', 'check_shell', 'chmod_enable', 'deny_email_enable', 'dirlist_enable', 'download_enable', 'dual_log_enable', 'force_dot_files', 'force_anon_data_ssl', 'force_anon_logins_ssl', 'force_local_data_ssl', 'force_local_logins_ssl', 'guest_enable', 'listen_ipv6', 'lock_upload_files', 'log_ftp_protocol', 'mdtm_write', 'no_anon_password', 'no_log_lock', 'one_process_model', 'passwd_chroot_enable', 'pasv_addr_resolve', 'pasv_enable', 'pasv_promiscuous', 'port_enable', 'port_promiscuous', 'reverse_lookup_enable', 'run_as_launching_user', 'secure_email_list_enable', 'session_support', 'ssl_enable', 'ssl_sslv2', 'ssl_sslv3', 'ssl_tlsv1', 'syslog_enable', 'tilde_user_enable', 'use_localtime', 'use_sendfile', 'virtual_use_local_privs'],
         :valid   => ['YES', 'NO'],
         :invalid => [['array'],a={'ha'=>'sh'},true,false],
         :message => 'Must be either \'YES\' or \'NO\'',
