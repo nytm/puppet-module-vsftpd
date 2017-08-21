@@ -1,3 +1,41 @@
+2017-08-21 - 1.0.4
+* Restore allow_writeable_chroot option that was missing in vsftpd.conf template.
+
+2017-05-29 - 1.0.3
+* Adds changes needed to support rspec testing Puppet >= 4.10 and Ruby 2.3.1.
+  Keeping support for Ruby 1.8.7.
+
+2016-03-12 - 1.0.2
+* VSFTPD for Debian Based systems did not work correctly since the default
+  chroot directory did not exist. Silent error by vsftpd, but starting it
+  manually and trying to connect returned this error.
+
+* Puppet module will now manage the chroot directory
+
+2016-02-18 - 1.0.1
+* Adds a missing parameter to the vsftpd template.
+
+2015-12-15 - 1.0.0
+This release contains breaking changes from tag release 0.3.0
+
+A lot of code was re-factored to remove some of parameters in the module which
+allowed configuration for parameters in vsftpd which I could not find in the
+man pages for latest vsftpd release.
+
+Removed the params.pp since we don't have os specific configuration for vsftpd.
+The parameters that vsftpd takes are not dependant on osfamily.
+
+Validation for all parameters has been added.
+Spec Tests updated to test validation.
+
+Config split into sections to better the readability...
+I'm sure you have opinions about this.
+
+2015-11-23 - 0.3.0
+* Adds all configurable options in the vsftpd configuration file into the manifest.
+* Rspec tests added.
+* Adds ability to modify ensure parameters for vsftpd package.
+
 2014-02-24 - 0.2.1
 * Add allow_writeable_chroot directive (#8).
 

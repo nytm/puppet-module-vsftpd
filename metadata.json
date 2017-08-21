@@ -1,13 +1,13 @@
 {
-  "name":         "propyless-vsftpd",
-  "version":      "1.0.1",
+  "name":         "gillarkod-vsftpd",
+  "version":      "1.0.4",
   "author":       "Matthias Saou",
   "license":      "Apache-2.0",
   "summary":      "Manage vsftpd FTP server",
   "description":  "Install and enable the vsftpd FTP server, a secure and fast FTP server for UNIX-like systems.",
-  "source":       "git@github.com:propyless/puppet-vsftpd.git",
-  "project_page": "https://github.com/propyless/puppet-vsftpd",
-  "issues_url":   "https://github.com/propyless/puppet-vsftpd/issues",
+  "source":       "git@github.com:gillarkod/puppet-vsftpd.git",
+  "project_page": "https://github.com/gillarkod/puppet-vsftpd",
+  "issues_url":   "https://github.com/gillarkod/puppet-vsftpd/issues",
   "operatingsystem_support": [
     {
       "operatingsystem": "Debian",
