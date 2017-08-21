@@ -196,6 +196,15 @@ chroot_list_enable=<%= @chroot_list_enable %>
 chroot_list_file=<%= @chroot_list_file %>
 <% end -%>
 
+# If you want the chroot environment to be writable you will need to set 
+# allow_writeable_chroot=YES. Otherwise vsftpd because of default security
+# settings will complain if it detects that chroot is writable.
+<% if @allow_writeable_chroot -%>
+allow_writeable_chroot=<%= @allow_writeable_chroot %>
+<% else -%>
+# allow_writeable_chroot=NO
+<% end -%>
+
 ssl_enable=<%= @ssl_enable %>
 <% if @ssl_enable == 'YES' -%>
 # This option specifies the location of the RSA certificate to use for SSL encrypted connections.

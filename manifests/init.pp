@@ -129,8 +129,8 @@ class vsftpd (
   $hide_file                 =  undef,
   $banner_file               =  undef,
   $cmds_allowed              =  undef,
-  $allow_writeable_chroot    =  undef,
   $anon_root                 =  undef,
+  $allow_writeable_chroot    =  undef,
   $deny_file                 =  undef,
   $dsa_cert_file             =  undef,
   $dsa_private_key_file      =  undef,
@@ -188,9 +188,6 @@ class vsftpd (
   }
   if $banner_file != undef {
     validate_string($banner_file)
-  }
-  if $allow_writeable_chroot != undef {
-    validate_string($allow_writeable_chroot)
   }
   if $anon_root != undef {
     validate_string($anon_root)
@@ -323,6 +320,11 @@ class vsftpd (
 
   validate_re($chroot_list_enable, '^(YES|NO)$',
     "vsftpd::chroot_list_enable is <${chroot_list_enable}>. Must be either 'YES' or 'NO'.")
+
+  if $allow_writeable_chroot != undef {
+    validate_re($allow_writeable_chroot, '^(YES|NO)$',
+      "vsftpd::allow_writeable_chroot is <${allow_writeable_chroot}>. Must be either 'YES' or 'NO'.")
+  }
 
   validate_re($ls_recurse_enable, '^(YES|NO)$',
     "vsftpd::ls_recurse_enable is <${ls_recurse_enable}>. Must be either 'YES' or 'NO'.")

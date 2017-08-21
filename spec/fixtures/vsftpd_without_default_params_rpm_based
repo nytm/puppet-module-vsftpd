@@ -153,6 +153,11 @@ use_sendfile=YES
 chroot_local_user=NO
 chroot_list_enable=NO
 
+# If you want the chroot environment to be writable you will need to set 
+# allow_writeable_chroot=YES. Otherwise vsftpd because of default security
+# settings will complain if it detects that chroot is writable.
+# allow_writeable_chroot=NO
+
 ssl_enable=NO
 
 # You may activate the "-R" option to the builtin ls. This is disabled by
