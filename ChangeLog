@@ -1,3 +1,8 @@
+2017-08-25 - 1.0.5
+* Remove whitespaces from vsftpd.conf template.
+  Some versions of vsftpd will fail on startup if they are present.
+  eg: vsftpd-3.0.2-10.el7.x86_64 on RHEL 7.2.
+
 2017-08-21 - 1.0.4
 * Restore allow_writeable_chroot option that was missing in vsftpd.conf template.
 
