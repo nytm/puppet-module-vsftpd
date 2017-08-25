@@ -24,7 +24,7 @@ gem 'rspec-puppet', '~> 2.5.0'
 gem 'json',                   '<= 1.8'   if RUBY_VERSION < '2.0.0'
 gem 'json_pure',              '<= 2.0.1' if RUBY_VERSION < '2.0.0'
 gem 'metadata-json-lint',     '0.0.11'   if RUBY_VERSION >= '1.8.7' && RUBY_VERSION < '1.9'
-gem 'metadata-json-lint',     '1.0.0'    if RUBY_VERSION >= '1.9' && RUBY_VERSION < '2.1'
+gem 'metadata-json-lint',     '1.1.0'    if RUBY_VERSION >= '1.9' && RUBY_VERSION < '2.1'
 gem 'metadata-json-lint'                 if RUBY_VERSION >= '2.1'
 gem 'parallel_tests',         '<= 2.9.0' if RUBY_VERSION > '1.9.3' # [1]
 gem 'puppetlabs_spec_helper', '2.0.2'    if RUBY_VERSION >= '1.8.7' && RUBY_VERSION < '1.9' # [1]
