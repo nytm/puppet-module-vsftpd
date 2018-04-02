@@ -345,13 +345,13 @@ user_config_dir=<%= @user_config_dir %>
 <% end -%>
 <% if @user_sub_token -%>
 
-  # This option is useful is conjunction with virtual users. It is used to automatically
-  # generate a home directory for each virtual user, based on a template. For example,
-  # if the home directory of the real user specified via guest_username is
-  # /home/virtual/$USER, and user_sub_token is set to $USER, then when virtual user
-  # fred logs in, he will end up (usually chroot()'ed) in the directory /home/virtual/fred.
-  # This option also takes affect if local_root contains user_sub_token.
-  # Default: (None)
+# This option is useful is conjunction with virtual users. It is used to automatically
+# generate a home directory for each virtual user, based on a template. For example,
+# if the home directory of the real user specified via guest_username is
+# /home/virtual/$USER, and user_sub_token is set to $USER, then when virtual user
+# fred logs in, he will end up (usually chroot()'ed) in the directory /home/virtual/fred.
+# This option also takes affect if local_root contains user_sub_token.
+# Default: (None)
 user_sub_token=<%= @user_sub_token %>
 
 <% end -%>
